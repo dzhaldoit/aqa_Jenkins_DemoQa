@@ -1,27 +1,40 @@
 package tests;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.RegistrationPage;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import utils.RandomUtils;
 
+@DisplayName("Тест регистрации")
+@Tag("demoqa")
 public class RegistrationDemoQATests extends TestBase {
 
     private final RegistrationPage registrationPage = new RegistrationPage();
+    private final RandomUtils random = new RandomUtils();
+
+    String
+            firstName = random.FirstName(),
+            lastName = random.LastName(),
+            userEmail = random.UserEmail(),
+            gender = random.Gender(),
+            phoneNumber = random.PhoneNumber(),
+            dayOfBirth = random.DayOfBirth(),
+            monthOfBirth = random.MonthOfBirth(),
+            yearOfBirth = random.YearOfBirth(),
+            subjects = random.Subjects(),
+            hobbies = random.Hobbies(),
+            picName = "avva.jpg",
+            currentAddress = random.CurrentAddress(),
+            state = random.State(),
+            city = random.City(state);
 
     @Test
+    @DisplayName("Позитивный тест регистрации")
     void successfulRegistrationTest() {
-        String  firstName = "Mihail",
-                lastName = "Zubenko",
-                userEmail = "mafia@sobaka.ru",
-                gender = "Male",
-                phoneNumber = "8999665533",
-                dayOfBirth = "25",
-                monthOfBirth = "July",
-                yearOfBirth = "1995",
-                subjects = "Maths",
-                hobbies = "Reading",
-                picName = "avva.jpg",
-                currentAddress = "Vladimirskiy, Central 12/3",
-                state = "Haryana", city = "Panipat";
+        SelenideLogger.addListener("allure", new AllureSelenide());
 
         registrationPage
                 .openPage()
@@ -54,11 +67,10 @@ public class RegistrationDemoQATests extends TestBase {
     }
 
     @Test
+    @DisplayName("Позитивный тест регистрации с минимальными данными")
     void successfulRegistrationWithMinDataTest() {
-        String firstName = "Mihail";
-        String lastName = "Zubenko";
-        String gender = "Male";
-        String phoneNumber = "8999665533";
+        SelenideLogger.addListener("allure", new AllureSelenide());
+
 
         registrationPage
                 .openPage()
@@ -76,7 +88,10 @@ public class RegistrationDemoQATests extends TestBase {
     }
 
     @Test
+    @DisplayName("Негативный тест регистрации")
     void negativeRegistrationTest() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+
         registrationPage.openPage();
         registrationPage.removeBanners();
         registrationPage.clickSubmit();
